@@ -1,6 +1,7 @@
 #  File: ExpressionTree.py 
 
-#  Description: 
+#  Description: Program that will read an expression file, and create an expression tree out of the data. Evaluate the infix 
+# expression and print the result. The program also writes the prefix and postfix versions of the same expression without parentheses.
 
 #  Student's Name: Peyton Breech
 
