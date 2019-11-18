@@ -53,6 +53,14 @@ class Node (object):
         self.data = data
         self.lchild = None
         self.rchild = None
+        self.float = 10e-8
+
+    #created string representation for the case of a float
+    def __str__ (self):
+        if (isisntance(self.data, float)):
+            if (self.data % 1 <= self.float):
+                return (f"{self.data}:.0f")
+            return (f"{self.data}")
 
 class Tree (object):
 
