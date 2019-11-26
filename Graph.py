@@ -132,7 +132,7 @@ class Graph (object):
     # return -1 if edge does not exist
     def get_edge_weight (self, fromVertexLabel, toVertexLabel):
         pass
-
+        
     # get a list of immediate neighbors that you can go to from a vertex
     # return a list of indices or an empty list if there are none
     def get_neighbors (self, vertexLabel):
@@ -258,7 +258,9 @@ def main():
   cities.bfs (start_index)
 
   # test deletion of an edge
+  delEdges = (in_file.readline()).strip().split()
   print("\nDeletion of an edge")
+  cities.delete_edge(delEdges[0], delEdges[1])
 
   # print the adjacency matrix
   print ("\nAdjacency Matrix")
@@ -268,7 +270,9 @@ def main():
     print ()
 
   # test deletion of a vertex
+  delVertex = (in_file.readline()).strip()
   print("\nDeletion of a vertex")
+  cities.delete_vertex(delVertex[0])
 
   # print list of vertices
   print("\nList of Vertices")
