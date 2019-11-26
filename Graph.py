@@ -1,6 +1,7 @@
 #  File: Graph.py
 
-#  Description:
+#  Description: Assignment 22. Graph assignment involving creating vertices and edges. Directed and undirected edges, getting neighbors of vertices,
+# using Depth First Search and Breadth First Search. Also will delete any given edges or vertices from the graph.
 
 #  Student's Name: Peyton Breech
 
@@ -86,6 +87,16 @@ class Graph (object):
     def __init__ (self):
         self.Vertices = []
         self.adjMat = []
+
+    # str representation of a graph
+    def __str__(self):
+        num_vertices = len(self.Vertices)
+        total = ""
+        for i in range(num_vertices):
+            for j in range(num_vertices):
+                total += f"{self.adjMat[i][j]} "
+            total += "\n"
+        return total[:-2]
     
     # check if a vertex is already in the graph
     def has_vertex (self, label):
@@ -131,12 +142,20 @@ class Graph (object):
     # get edge weight between two vertices
     # return -1 if edge does not exist
     def get_edge_weight (self, fromVertexLabel, toVertexLabel):
-        pass
+        edgeWeight = self.adjMat[self.get_index(fromVertexLabel)][self.get_index(toVertexLabel)]
+        if (edgeWeight != 0):
+            return (edgeWeight)
+        return (-1)
         
     # get a list of immediate neighbors that you can go to from a vertex
     # return a list of indices or an empty list if there are none
     def get_neighbors (self, vertexLabel):
-        pass
+        neighbors = []
+        vertexIndex = self.get_index(vertexLabel)
+        for i in range(len(self.Vertices[vertexIndex])):
+            if (self.Vertices[vertexIndex][i] != 0):
+                neighbors.append(self.Vertices[vertexIndex][i])
+        return (neighbors)
 
     # return an index to an unvisited vertex adjacent to vertex v (index)
     def get_adj_unvisited_vertex (self, v):
@@ -207,83 +226,87 @@ class Graph (object):
     # delete a single edge if the graph is directed
     # delete two edges if the graph is undirected
     def delete_edge (self, fromVertexLabel, toVertexLabel):
-        pass
+        startIndex = self.get_index(fromVertexLabel)
+        endIndex = self.get_index(toVertexLabel)
+        self.adjMat[startIndex][endIndex] = 0
 
     # delete a vertex from the vertex list and all edges from and
     # to it in the adjacency matrix
     def delete_vertex (self, vertexLabel):
-        pass
+        vertexIndex = self.get_index(vertexLabel)
+        del (self.Vertices[vertexIndex])
+        del (self.adjMat[vertexIndex])
+        for i in range(len(self.Vertices)):
+            del (self.adjMat[i][vertexIndex])
 
 def main():
 
-  # create the Graph object
-  cities = Graph()
+    # create the Graph object
+    cities = Graph()
 
-  # oepn the file for reading
-  in_file = open ("graph.txt", "r")
+    # oepn the file for reading
+    in_file = open ("graph.txt", "r")
 
-  # read the number of vertices
-  num_vertices = int ((in_file.readline()).strip())
+    # read the number of vertices
+    num_vertices = int ((in_file.readline()).strip())
 
-  # read all the Vertices and add them the Graph
-  for i in range (num_vertices):
-    city = (in_file.readline()).strip()
-    cities.add_vertex (city)
+    # read all the Vertices and add them the Graph
+    for i in range (num_vertices):
+        city = (in_file.readline()).strip()
+        cities.add_vertex (city)
 
-  # read the number of edges
-  num_edges = int ((in_file.readline()).strip())
+    # read the number of edges
+    num_edges = int ((in_file.readline()).strip())
 
-  # read the edges and add them to the adjacency matrix
-  for i in range (num_edges):
-    edge = (in_file.readline()).strip()
-    edge = edge.split()
-    start = int (edge[0])
-    finish = int (edge[1])
-    weight = int (edge[2])
+    # read the edges and add them to the adjacency matrix
+    for i in range (num_edges):
+        edge = (in_file.readline()).strip()
+        edge = edge.split()
+        start = int (edge[0])
+        finish = int (edge[1])
+        weight = int (edge[2])
 
-    cities.add_directed_edge (start, finish, weight)
+        cities.add_directed_edge (start, finish, weight)
 
-  # read the starting vertex fro dfs and bfs
-  start_vertex = (in_file.readline()).strip()
+    # read the starting vertex fro dfs and bfs
+    start_vertex = (in_file.readline()).strip()
 
-  # get the index of the starting vertex
-  start_index = cities.get_index (start_vertex)
+    # get the index of the starting vertex
+    start_index = cities.get_index (start_vertex)
 
-  # test depth first search
-  print ("\nDepth First Search")
-  cities.dfs (start_index)
+    # test depth first search
+    print ("\nDepth First Search")
+    cities.dfs (start_index)
 
-  # test breadth first search
-  print("\nBreadth First Search")
-  cities.bfs (start_index)
+    # test breadth first search
+    print("\nBreadth First Search")
+    cities.bfs (start_index)
 
-  # test deletion of an edge
-  delEdges = (in_file.readline()).strip().split()
-  print("\nDeletion of an edge")
-  cities.delete_edge(delEdges[0], delEdges[1])
+    # test deletion of an edge
+    delEdges = (in_file.readline()).strip().split()
+    print("\nDeletion of an edge")
+    cities.delete_edge(delEdges[0], delEdges[1])
 
-  # print the adjacency matrix
-  print ("\nAdjacency Matrix")
-  for i in range (num_vertices):
-    for j in range (num_vertices):
-      print (cities.adjMat[i][j], end = " ")
-    print ()
+    # print the adjacency matrix
+    print("\nAdjacency Matrix")
+    for i in range (num_vertices):
+        for j in range (num_vertices):
+            print (cities.adjMat[i][j], end = " ")
+        print()
+    print()
 
-  # test deletion of a vertex
-  delVertex = (in_file.readline()).strip()
-  print("\nDeletion of a vertex")
-  cities.delete_vertex(delVertex[0])
+    # test deletion of a vertex
+    delVertex = (in_file.readline()).strip()
+    print("\nDeletion of a vertex")
+    cities.delete_vertex(delVertex)
 
-  # print list of vertices
-  print("\nList of Vertices")
-  cities.get_vertices()
+    # print list of vertices
+    print("\nList of Vertices")
+    cities.get_vertices()
 
-  # print the adjacency matrix
-  print ("\nAdjacency Matrix")
-  for i in range (num_vertices):
-    for j in range (num_vertices):
-      print (cities.adjMat[i][j], end = " ")
-    print ()
+    # print the adjacency matrix
+    print ("\nAdjacency Matrix")
+    print(cities)
 
 if __name__ == "__main__":
   main()
