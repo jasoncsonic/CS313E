@@ -229,6 +229,7 @@ class Graph (object):
         startIndex = self.get_index(fromVertexLabel)
         endIndex = self.get_index(toVertexLabel)
         self.adjMat[startIndex][endIndex] = 0
+        self.adjMat[endIndex][startIndex] = 0
 
     # delete a vertex from the vertex list and all edges from and
     # to it in the adjacency matrix
