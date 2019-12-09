@@ -182,7 +182,7 @@ class Graph (object):
 
         # visit all the other vertices according to depth
         while (not theStack.is_empty()):
-            # get an adjacent unvisited vertex
+            # get an adjacent unvi3sited vertex
             u = self.get_adj_unvisited_vertex (theStack.peek())
             if (u == -1):
                 u = theStack.pop()
